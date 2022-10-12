@@ -79,8 +79,8 @@ $attributes = $scanner->getAttributes();
     "App\Http\Controllers\UserController.service" => [
         "class" => "App\Http\Controllers\UserController",
         "target" => "property",
-        "property" => "id",
-        "name" => "Uzbek\SomeAttributes\ID",
+        "property" => "service",
+        "name" => "Uzbek\SomeAttributes\Readonly",
         "arguments" => [],
     ],
     "App\Http\Controllers\UserController:IS_PUBLIC" => [
