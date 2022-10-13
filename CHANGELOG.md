@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-attribute-scanner` will be documented in this file.
 
+## 0.1.2 - 2022-10-13
+
+array_filter on to_array disabled by default. Added to config.
+
 ## 0.1.1 - 2022-10-13
 
 Update PhpDoc on Facade
