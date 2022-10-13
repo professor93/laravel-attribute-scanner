@@ -47,48 +47,56 @@ $attributes = $scanner->getAttributes();
 ### asArray = false (default)
 ```php
 [
-    "App\Http\Controllers\UserController@create" => {...}, #Uzbek\LaravelAttributeScanner\Attribute, method
-    "App\Http\Controllers\UserController@update>id" => {...}, #Uzbek\LaravelAttributeScanner\Attribute, parameter
-    "App\Http\Controllers\UserController.service" => {...}, #Uzbek\LaravelAttributeScanner\Attribute, property
+    "App\Http\Controllers\UserController@create" => [{...},{...}], #Uzbek\LaravelAttributeScanner\Attribute[],   (method)
+    "App\Http\Controllers\UserController@update>id" => [{...}], #Uzbek\LaravelAttributeScanner\Attribute[],   (parameter)
+    "App\Http\Controllers\UserController.service" => [{...}], #Uzbek\LaravelAttributeScanner\Attribute[],   (property)
 ]
 ```
 ### asArray = true
 ```php
 [
     "App\Http\Controllers\UserController@create" => [
-        "class" => "App\Http\Controllers\UserController",
-        "method" => "create",
-        "target" => "method",
-        "name" => "Uzbek\LaravelValidationAttributes\Attributes\Validators",
-        "arguments" => [
-            [
-                "name" => "required|string",
-                "email" => "required|email",
-                ...
+        [
+            "class" => "App\Http\Controllers\UserController",
+            "method" => "create",
+            "target" => "method",
+            "name" => "Uzbek\LaravelValidationAttributes\Attributes\Validators",
+            "arguments" => [
+                [
+                    "name" => "required|string",
+                    "email" => "required|email",
+                    ...
+                ],
             ],
-        ],
+        ]
     ],
     "App\Http\Controllers\UserController@update>id" => [
-        "class" => "App\Http\Controllers\UserController",
-        "method" => "update",
-        "target" => "parameter",
-        "parameter" => "id",
-        "name" => "Uzbek\SomeAttributes\ID",
-        "arguments" => [],
+        [
+            "class" => "App\Http\Controllers\UserController",
+            "method" => "update",
+            "target" => "parameter",
+            "parameter" => "id",
+            "name" => "Uzbek\SomeAttributes\ID",
+            "arguments" => [],
+        ]
     ],
     "App\Http\Controllers\UserController.service" => [
-        "class" => "App\Http\Controllers\UserController",
-        "target" => "property",
-        "property" => "service",
-        "name" => "Uzbek\SomeAttributes\Readonly",
-        "arguments" => [],
+        [
+            "class" => "App\Http\Controllers\UserController",
+            "target" => "property",
+            "property" => "service",
+            "name" => "Uzbek\SomeAttributes\Readonly",
+            "arguments" => [],
+        ]
     ],
     "App\Http\Controllers\UserController:IS_PUBLIC" => [
-        "class" => "App\Http\Controllers\UserController",
-        "target" => "constant",
-        "constant" => "IS_PUBLIC",
-        "name" => "Uzbek\SomeAttributes\Casts\Integer",
-        "arguments" => [],
+        [
+            "class" => "App\Http\Controllers\UserController",
+            "target" => "constant",
+            "constant" => "IS_PUBLIC",
+            "name" => "Uzbek\SomeAttributes\Casts\Integer",
+            "arguments" => [],
+        ]
     ],
     ...
 ]
