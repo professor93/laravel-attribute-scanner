@@ -75,7 +75,7 @@ class LaravelAttributeScanner
             }
         }
 
-        return $attributes;
+        return array_filter($attributes);
     }
 
     /**

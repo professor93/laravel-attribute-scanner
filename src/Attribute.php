@@ -14,6 +14,9 @@ class Attribute
 {
     public string $target = '';
 
+    /**
+     * @throws \Exception
+     */
     public function __construct(
         public readonly ReflectionAttribute $attribute,
         public readonly ?ReflectionClass $class = null,
@@ -35,7 +38,7 @@ class Attribute
 
     public function toArray(): array
     {
-        return array_filter([
+        $arr = [
             'class' => $this->class?->getName(),
             'method' => $this->method?->getName(),
             'property' => $this->property?->getName(),
@@ -44,6 +47,8 @@ class Attribute
             'target' => $this->target,
             'name' => $this->attribute->getName(),
             'arguments' => $this->attribute->getArguments(),
-        ]);
+        ];
+
+        return config('attribute-scanner.filtered_to_array') === true ? array_filter($arr) : $arr;
     }
 }
