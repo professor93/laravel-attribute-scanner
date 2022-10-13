@@ -23,7 +23,9 @@ class LaravelAttributeScanner
             return [];
         }
 
-        if (is_string($name) && strlen($name) === 0) $name = null;
+        if (is_string($name) && strlen($name) === 0) {
+            $name = null;
+        }
 
         $items = [];
         foreach ($reflector->getAttributes($name) as $attribute) {
@@ -36,13 +38,17 @@ class LaravelAttributeScanner
 
     /**
      * @param class-string<T>[]|string|null $names Name of an attribute class
-     * @param boolean $asArray Result as array
+     * @param  bool  $asArray Result as array
+     *
      * @throws \Throwable
      */
     public function getAttributes(array|string $names = [], bool $asArray = false): array
     {
-        if (is_string($names)) $names = [$names];
-        elseif (!is_array($names) || count($names) === 0) $names = [null];
+        if (is_string($names)) {
+            $names = [$names];
+        } elseif (! is_array($names) || count($names) === 0) {
+            $names = [null];
+        }
 
         $attributes = [];
         /** @var \ReflectionClass $class */
@@ -51,19 +57,19 @@ class LaravelAttributeScanner
             foreach ($names as $name) {
                 $attributes[$className] = $this->scanAttributes($class, $class, $name, $asArray);
                 foreach ($class->getMethods() as $method) {
-                    $methodName = $className . '@' . $method->getName();
+                    $methodName = $className.'@'.$method->getName();
                     $attributes[$methodName] = $this->scanAttributes($method, $class, $name, $asArray);
                     foreach ($method->getParameters() as $parameter) {
-                        $paramName = $className . '@' . $method->getName() . '>' . $parameter->getName();
+                        $paramName = $className.'@'.$method->getName().'>'.$parameter->getName();
                         $attributes[$paramName] = $this->scanAttributes($parameter, $class, $name, $asArray);
                     }
                 }
                 foreach ($class->getProperties() as $property) {
-                    $propName = $className . '.' . $property->getName();
+                    $propName = $className.'.'.$property->getName();
                     $attributes[$propName] = $this->scanAttributes($property, $class, $name, $asArray);
                 }
                 foreach ($class->getReflectionConstants() as $constant) {
-                    $constName = $className . ':' . $constant->getName();
+                    $constName = $className.':'.$constant->getName();
                     $attributes[$constName] = $this->scanAttributes($constant, $class, $name, $asArray);
                 }
             }
