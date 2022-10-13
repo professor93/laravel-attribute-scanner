@@ -14,6 +14,6 @@ class LaravelAttributeScannerServiceProvider extends PackageServiceProvider
          */
         $package->name('laravel-attribute-scanner')->hasConfigFile();
 
-        $this->app->singleton(LaravelAttributeScanner::class, fn() => new LaravelAttributeScanner(config('attribute-scanner.directories', ['app'])));
+        $this->app->singleton(LaravelAttributeScanner::class, fn () => new LaravelAttributeScanner(config('attribute-scanner.directories', ['app'])));
     }
 }
