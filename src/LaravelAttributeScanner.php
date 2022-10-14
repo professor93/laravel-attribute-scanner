@@ -38,7 +38,7 @@ class LaravelAttributeScanner
 
     /**
      * @param class-string<T>[]|string|null $names Name of an attribute class
-     * @param  bool  $asArray Result as array
+     * @param bool $asArray Result as array
      *
      * @throws \Throwable
      */
@@ -46,7 +46,7 @@ class LaravelAttributeScanner
     {
         if (is_string($names)) {
             $names = [$names];
-        } elseif (! is_array($names) || count($names) === 0) {
+        } elseif (!is_array($names) || count($names) === 0) {
             $names = [null];
         }
 
@@ -54,23 +54,24 @@ class LaravelAttributeScanner
         /** @var \ReflectionClass $class */
         foreach ($this->getClasses(asReflection: true) as $class) {
             $className = $class->getName();
+
             foreach ($names as $name) {
-                $attributes[$className] = $this->scanAttributes($class, $class, $name, $asArray);
+                $this->addOrMergeArrayItem($attributes, $className, $this->scanAttributes($class, $class, $name, $asArray));
                 foreach ($class->getMethods() as $method) {
-                    $methodName = $className.'@'.$method->getName();
-                    $attributes[$methodName] = $this->scanAttributes($method, $class, $name, $asArray);
+                    $methodName = $className . '@' . $method->getName();
+                    $this->addOrMergeArrayItem($attributes, $methodName, $this->scanAttributes($method, $class, $name, $asArray));
                     foreach ($method->getParameters() as $parameter) {
-                        $paramName = $className.'@'.$method->getName().'>'.$parameter->getName();
-                        $attributes[$paramName] = $this->scanAttributes($parameter, $class, $name, $asArray);
+                        $paramName = $className . '@' . $method->getName() . '>' . $parameter->getName();
+                        $this->addOrMergeArrayItem($attributes, $paramName, $this->scanAttributes($parameter, $class, $name, $asArray));
                     }
                 }
                 foreach ($class->getProperties() as $property) {
-                    $propName = $className.'.'.$property->getName();
-                    $attributes[$propName] = $this->scanAttributes($property, $class, $name, $asArray);
+                    $propName = $className . '.' . $property->getName();
+                    $this->addOrMergeArrayItem($attributes, $propName, $this->scanAttributes($property, $class, $name, $asArray));
                 }
                 foreach ($class->getReflectionConstants() as $constant) {
-                    $constName = $className.':'.$constant->getName();
-                    $attributes[$constName] = $this->scanAttributes($constant, $class, $name, $asArray);
+                    $constName = $className . ':' . $constant->getName();
+                    $this->addOrMergeArrayItem($attributes, $constName, $this->scanAttributes($constant, $class, $name, $asArray));
                 }
             }
         }
@@ -97,5 +98,14 @@ class LaravelAttributeScanner
     public function getDirectories(): array
     {
         return is_null($this->directories) ? [] : (is_array($this->directories) ? $this->directories : [$this->directories]);
+    }
+
+    private function addOrMergeArrayItem(array &$array, $key, array $value): void
+    {
+        if (array_key_exists($key, $array) && !empty($array[$key])) {
+            $array[$key] = array_merge($array[$key], $value);
+        } else {
+            $array[$key] = $value;
+        }
     }
 }
