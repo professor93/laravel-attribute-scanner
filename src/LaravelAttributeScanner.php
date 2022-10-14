@@ -38,7 +38,7 @@ class LaravelAttributeScanner
 
     /**
      * @param class-string<T>[]|string|null $names Name of an attribute class
-     * @param bool $asArray Result as array
+     * @param  bool  $asArray Result as array
      *
      * @throws \Throwable
      */
@@ -46,7 +46,7 @@ class LaravelAttributeScanner
     {
         if (is_string($names)) {
             $names = [$names];
-        } elseif (!is_array($names) || count($names) === 0) {
+        } elseif (! is_array($names) || count($names) === 0) {
             $names = [null];
         }
 
@@ -58,19 +58,19 @@ class LaravelAttributeScanner
             foreach ($names as $name) {
                 $this->addOrMergeArrayItem($attributes, $className, $this->scanAttributes($class, $class, $name, $asArray));
                 foreach ($class->getMethods() as $method) {
-                    $methodName = $className . '@' . $method->getName();
+                    $methodName = $className.'@'.$method->getName();
                     $this->addOrMergeArrayItem($attributes, $methodName, $this->scanAttributes($method, $class, $name, $asArray));
                     foreach ($method->getParameters() as $parameter) {
-                        $paramName = $className . '@' . $method->getName() . '>' . $parameter->getName();
+                        $paramName = $className.'@'.$method->getName().'>'.$parameter->getName();
                         $this->addOrMergeArrayItem($attributes, $paramName, $this->scanAttributes($parameter, $class, $name, $asArray));
                     }
                 }
                 foreach ($class->getProperties() as $property) {
-                    $propName = $className . '.' . $property->getName();
+                    $propName = $className.'.'.$property->getName();
                     $this->addOrMergeArrayItem($attributes, $propName, $this->scanAttributes($property, $class, $name, $asArray));
                 }
                 foreach ($class->getReflectionConstants() as $constant) {
-                    $constName = $className . ':' . $constant->getName();
+                    $constName = $className.':'.$constant->getName();
                     $this->addOrMergeArrayItem($attributes, $constName, $this->scanAttributes($constant, $class, $name, $asArray));
                 }
             }
@@ -102,7 +102,7 @@ class LaravelAttributeScanner
 
     private function addOrMergeArrayItem(array &$array, $key, array $value): void
     {
-        if (array_key_exists($key, $array) && !empty($array[$key])) {
+        if (array_key_exists($key, $array) && ! empty($array[$key])) {
             $array[$key] = array_merge($array[$key], $value);
         } else {
             $array[$key] = $value;
