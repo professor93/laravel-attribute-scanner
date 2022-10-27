@@ -13,20 +13,20 @@ use ReflectionProperty;
 class Attribute
 {
     public string $target = '';
+
     public object|null $instance = null;
 
     /**
      * @throws \Exception
      */
     public function __construct(
-        public readonly ReflectionAttribute      $attribute,
-        public readonly ?ReflectionClass         $class = null,
-        public readonly ?ReflectionMethod        $method = null,
-        public readonly ?ReflectionProperty      $property = null,
+        public readonly ReflectionAttribute $attribute,
+        public readonly ?ReflectionClass $class = null,
+        public readonly ?ReflectionMethod $method = null,
+        public readonly ?ReflectionProperty $property = null,
         public readonly ?ReflectionClassConstant $constant = null,
-        public readonly ?ReflectionParameter     $parameter = null,
-    )
-    {
+        public readonly ?ReflectionParameter $parameter = null,
+    ) {
         $this->target = match ($this->attribute->getTarget()) {
             \Attribute::TARGET_CLASS => 'class',
             \Attribute::TARGET_METHOD => 'method',
@@ -50,7 +50,7 @@ class Attribute
             'target' => $this->target,
             'name' => $this->attribute->getName(),
             'arguments' => $this->attribute->getArguments(),
-            'instance' => (array)($this->instance) ?? null,
+            'instance' => (array) ($this->instance) ?? null,
         ];
 
         return config('attribute-scanner.filtered_to_array') === true ? array_filter($arr) : $arr;
