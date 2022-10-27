@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-attribute-scanner` will be documented in this file.
 
+## 0.1.5 - 2022-10-14
+
+Fix bug with multiple attribute names.
+
 ## 0.1.4 - 2022-10-13
 
 array_filter on to_array disabled by default. Added to config. (older
