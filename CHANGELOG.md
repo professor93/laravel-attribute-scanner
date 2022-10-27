@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-attribute-scanner` will be documented in this file.
 
+## 0.1.6 - 2022-10-27
+
+Add attribute instance to attribute dto class.
+
 ## 0.1.5 - 2022-10-14
 
 Fix bug with multiple attribute names.
