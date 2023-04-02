@@ -13,10 +13,6 @@ use SplFileInfo;
 class ClassFinder
 {
     /**
-     * @param  string|null  $directory
-     * @param  string|null  $parentClass
-     * @param  string|null  $basePath
-     * @param  string|null  $baseNamespace
      * @return Collection<class-string>
      *
      * @throws \Throwable

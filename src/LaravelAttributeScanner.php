@@ -92,9 +92,6 @@ class LaravelAttributeScanner
         return $classes->unique()->toArray();
     }
 
-    /**
-     * @return array
-     */
     public function getDirectories(): array
     {
         return is_null($this->directories) ? [] : (is_array($this->directories) ? $this->directories : [$this->directories]);
